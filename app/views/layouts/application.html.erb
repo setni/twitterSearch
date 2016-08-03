@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TwitterSearch</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  
+  <%= csrf_meta_tags %>
+</head>
+<body>
+    <!-- Header -->
+    
+    <header>
+        <img class="logo" src="assets/Logo.png">
+        <ul>
+            <li onclick="accueil()" >SEARCH</li>
+            <li onclick="login()" >FAVOURITES</li>
+             <li style="color:#3b5998;" onclick="javascript:window.open('https://www.facebook.com/allvisio')">FACEBOOK</li>
+        </ul>
+        <img onclick="l_menu()" class="l_menu" src="assets/Menu.png">
+        
+    </header> 
+    
+    <!-- Header Responsive -->
+    
+    <div onclick="effet_menu()" class="effet_menu"></div>
+    <div class="header_responsive">
+        <span onclick="close_menu()" class="close_menu">x</span>
+        <ul>
+            <li onclick="accueil()" >SEARCH</li>
+            <li onclick="login()" >FAVOURITE</li>
+            <li style="color:#3b5998;" onclick="javascript:window.open('https://www.facebook.com/allvisio')">FACEBOOK</li>
+        </ul>
+        <p>© Copyright 2016 - allVisio</p>
+    </div>
+    
+<content><%= yield %></content>
+
+<footer><div class="text">Cet outil n'utilise pas de cookies. <br><a href="http://allvisio.com" target="_blank">CONTACT</a></div></footer>
+</body>
+<script src="/assets/jquery.js"></script>
+<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
+</html>
