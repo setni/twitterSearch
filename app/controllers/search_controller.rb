@@ -8,25 +8,24 @@ require 'twitter'
 
 class SearchController < ApplicationController
     
-    
+    def meta_resp
+        userAgent = request.user_agent
+      
+      if userAgent =~ /iphone/i or userAgent =~ /ipad/i or userAgent =~ /ipod/i
+          return '1.0'
+      else
+          return '0.67'
+      end
+        
+    end
   def search
       ip = request.remote_ip
       userAgent = request.user_agent
-      
-      if Connexion.find_by(ip: ip) != nil
-          up = Connexion.find_by(ip: ip)
-          old = up.nb
-          up.nb = old+1
-          up.save
-      else nb = 1
-          co = Connexion.new
-          co.ip = ip
-          co.user_agent = userAgent
-          co.nb = 1
-          co.date = Time.now
-          co.save
-      end
-     
+
+      @meta = meta_resp
+
+      url = 'http://allvisio.com/PHP/api.php?connexion='+ip.to_s+'&user_agent='+userAgent.to_s+'&secret=API_SECRET'
+      open(url)
        
   end
     
@@ -40,7 +39,7 @@ class SearchController < ApplicationController
         
         
         kittens     = open(url)
-        # render :JSON
+        
         @my_hash    = JSON.parse(kittens.read)
         respond_to do |format|
             format.json {render json:  @my_hash }
@@ -57,11 +56,10 @@ class SearchController < ApplicationController
         avant  = params[:until]
         coor    = params[:coor]
         
-        recherche = Mysql.escape_string(query)
-        re = Recherche.new
-        re.recherche = recherche
-        re.date = Time.now
-        re.save
+        
+        ip = request.remote_ip
+        url = 'http://allvisio.com/PHP/api.php?ip='+ip.to_s+'&recherche='+query.to_s+'secret=API_SECRET'
+      open(url)
         
         client = Twitter::REST::Client.new do |config|
             config.consumer_key        = "4fLUMpoGpGnDmc2eG6xS0RBch"
@@ -79,15 +77,14 @@ class SearchController < ApplicationController
         }
         
         tabURL = Array.new
-        #adress = Array.new
+        
         
         client.search("#{query}", search_options).take(30).each do |tweet|
-            #tabURL.push(tweet.id)
+            
             url = "https://twitter.com/#{tweet.user.screen_name}/status/#{tweet.id}"
-            #puts url
-            #tabURL.push("<blockquote class='twitter-tweet'><a href='#{url}'></a></blockquote>")
+            
             tabURL.push(url)
-            #adress.push(url)
+            
         end
         @result = tabURL.to_s
 

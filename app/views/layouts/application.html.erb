@@ -3,8 +3,14 @@
 <head>
   <title>TwitterSearch</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <meta name="viewport" content="width=device-width, initial-scale=<%= @meta %>">
+  <meta property="og:url"                content="http://twitter.allvisio.com" />
+  <meta property="og:type"               content="website" />
+  <meta property="og:title"              content="Un outil simple de recherche de Tweet" />
   
   <%= csrf_meta_tags %>
+    
+   
 </head>
 <body>
     <!-- Header -->

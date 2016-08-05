@@ -37,8 +37,10 @@ function geocode () {
 }
 
 function query () {
-    $('#pacman').css('display', 'block');
+    
     query = $('#query').val();
+    if(query != ""&&query!=" ") {
+    $('#pacman').css('display', 'block');
     lang = $('#lang').find(":selected").attr('data-lang');
     type = $('#result_type').find(":selected").attr('data-type');
     until = $('#until').val();
@@ -56,6 +58,10 @@ function query () {
         document.body.appendChild(script);
         $('#pacman').css('display', 'none');
     });
+    }
+    else {
+        alert('recherche vide'); 
+    }
 }
 
 /*twitter   
